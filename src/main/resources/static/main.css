@@ -1,0 +1,10 @@
+/* list.html card css S */
+.card {
+ margin : 30px auto;
+ display : flex;
+}
+.card img {
+ width : 150px;
+ margin-right : 20px;
+}
+/* list.html card css E */

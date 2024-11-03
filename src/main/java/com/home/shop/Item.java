@@ -1,14 +1,17 @@
 package com.home.shop;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 @Entity
+@ToString
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     public String title;
     public Integer price;
+
 }
 
 /** Lombok 플러그인 활용한 DB data 출력하기
