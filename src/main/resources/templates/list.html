@@ -10,13 +10,18 @@
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-<!-- th:each="작명 : ${변수명}" == 변수명 안에 있는 List자료형을 '작명'에 하나하나 저장해준다. -->
+    <!-- nav bar html -->
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <!-- th:each="작명 : ${변수명}" == 변수명 안에 있는 List자료형을 '작명'에 하나하나 저장해준다. -->
     <div class="card" th:each="i : ${items}">
-        <img src="https://placehold.co/300">
-        <div>
-            <h4 th:text="${i.title}">바지</h4>
-            <p th:text="${i.price}">7억</p>
-        </div>
+        <a th:href="@{ '/detail' + ${ i.id } }">
+            <img src="https://placehold.co/300">
+            <div>
+                <h4 th:text="${i.title}">바지</h4>
+                <p th:text="${i.price}">7억</p>
+            </div>
+        </a>
     </div>
 </body>
 </html>

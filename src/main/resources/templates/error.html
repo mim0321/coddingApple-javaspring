@@ -5,13 +5,15 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>코딩애플 JAVA Spring Boot 강의임</title>
-    <link rel="stylesheet" href="main.css">
+    <title>error</title>
 </head>
 <body>
-    <!-- nav bar html -->
-    <div th:replace="~{ nav.html::navbar }"></div>
+    <h4>잘못된 접근입니다.</h4>
 
-    <h1>Main page</h1>
+    <p th:text="${status}"></p>
+    <p th:text="${error}"></p>
+    <p th:text="${path}"></p>
+    <p th:text="${message}"></p>
+    <p th:text="${exception}"></p>
 </body>
 </html>

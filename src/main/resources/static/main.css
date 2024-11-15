@@ -1,10 +1,75 @@
+/* Normalize S */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+/* Normalize E */
+
+/* Nav bar S */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap');
+.nav {
+ display: flex;
+ padding: 10px;
+ align-items: center;
+ font-family : 'Montserrat';
+ border-bottom: 1px solid #000;
+ box-sizing: border-box;
+ margin-bottom: 16px;
+}
+.nav a {
+ margin-right: 10px;
+ text-decoration : none;
+ font-weight : 400;
+ letter-spacing : -0.5px;
+ color: inherit;
+}
+.nav .logo {
+ font-weight : 800;
+}
+/* Nav bar E */
+
 /* list.html card css S */
-.card {
+.card > a {
  margin : 30px auto;
  display : flex;
+ transition: all 0.4s;
 }
+
+.card > a:hover {
+    background-color: #f2f2f2;
+}
+
 .card img {
  width : 150px;
  margin-right : 20px;
 }
 /* list.html card css E */
+
+/* input, btn main S */
+input, button {
+ padding : 8px 13px;
+ margin-top : 5px;
+ border : 1px solid grey;
+ border-radius : 4px;
+ vertical-align : middle;
+}
+button {
+ background : black;
+ color : white;
+ border : none;
+}
+input {
+ display : block;
+}
+/* input, btn main E */
+
+/* detail S */
+.detail {
+  text-align : center;
+}
+.detail img{
+  max-width : 30%;
+  display : block;
+  margin : auto;
+}
+/* detail E */

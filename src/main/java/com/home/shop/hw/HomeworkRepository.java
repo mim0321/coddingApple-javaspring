@@ -1,4 +1,4 @@
-package com.home.shop;
+package com.home.shop.hw;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

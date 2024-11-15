@@ -1,0 +1,13 @@
+<!-- nav bar처럼 중복된 UI 갖다쓰는 방법
+ 1. /templates 에 중복사용할 html을 생성
+ 2. 중복사용할 html 파일에 코드를 작성
+ 3. 해당 코드의 가장 높은 부모태그 속성으로 th:fragment="작명" 을 추가
+ 4. 위 코드를 재사용할 html파일로 이동
+ 5. div박스 하나를 만든 후 속성에 th:replace="~{ 파일명.html::작명 }" 추가
+ -->
+
+<div class="nav" th:fragment="navbar">
+    <a href="/" class="logo">SpringMall</a>
+    <a href="/list">List</a>
+    <a href="/write">Write</a>
+</div>
