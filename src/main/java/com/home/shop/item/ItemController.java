@@ -1,18 +1,11 @@
 //아래 클래스를 다른 파일에서도 쓰고싶으면 아래 package에 경로를 입력해줘야함 그래서 써놓는거임
-package com.home.shop;
+package com.home.shop.item;
 
+import com.home.shop.ListService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
@@ -20,11 +13,12 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
+    private final ListService listService;
 
     @GetMapping("/list")
     String list(Model model){
-        List<Item> result = itemRepository.findAll();
-        model.addAttribute("items", result);
+        listService.listDB(model);
 
         return "list.html";
     }
@@ -41,24 +35,12 @@ public class ItemController {
     }
 
 // 상품 추가 POST API
-    @Autowired
-    private ItemService itemService;
-
-    @PostMapping("/add")
+@PostMapping("/add")
     public String addItem(@RequestParam String title,
                           @RequestParam Integer price,
                           Model model){
-//        새로운 Item 객체 생성
-        Item item = new Item();
-        item.setTitle(title);
-        item.setPrice(price);
-
-//        Item을 데이터베이스에 저장
-        itemService.saveItem(item);
-
-//        모델에 데이터 추가
-        model.addAttribute("items", item);
-
+//        Service로 저장하는거 만듦
+        itemService.saveItem(title, price);
 
         return "redirect:/list";
     }
@@ -67,6 +49,7 @@ public class ItemController {
 //    URL parameters == url에 중괄호 + 작명 >> /{name}
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Long id, Model model){
+
         Optional<Item> result = itemRepository.findById(id);
 //        Optional 타입을 사용 할 때에는 findById의 결과가 null이 될 수 있기 때문에 if문을 사용하여 "해당 변수에 뭔가가 들어있으면 result.get()을 실행해줘" 라고 코딩하는 것이 옳다.
         if (result.isPresent()){
@@ -75,6 +58,45 @@ public class ItemController {
         } else {
             return "redirect:/list";
         }
+
     }
+
+// 상품수정 API
+    /**
+     * 1. 수정버튼을 누르면
+     * 2. 수정페이지로 이동하고(페이지엔 기존내용이 채워져있음)
+     * 3. 전송 누르면 DB로 수정하면 됨
+     * */
+    @GetMapping("/edit/{id}")
+    String postEdit(@PathVariable Long id, Model model){
+        Optional<Item> result = itemRepository.findById(id);
+
+        if (result.isPresent()){
+            model.addAttribute("item", result.get());
+            return "edit.html";
+        } else{
+            return "redirect:/list";
+        }
+
+    }
+
+    @PostMapping("/update/{id}")
+    String updateItem(@PathVariable Long id,
+                      @RequestParam String title,
+                      @RequestParam Integer price) {
+
+        Optional<Item> result = itemRepository.findById(id);
+
+        if(result.isPresent()){
+            Item updatedItem = result.get();
+            updatedItem.setTitle(title);
+            updatedItem.setPrice(price);
+
+            itemRepository.save(updatedItem);
+        }
+        return "redirect:/list";
+    }
+
+
 
 }

@@ -15,13 +15,25 @@
 
     <!-- th:each="작명 : ${변수명}" == 변수명 안에 있는 List자료형을 '작명'에 하나하나 저장해준다. -->
     <div class="card" th:each="i : ${items}">
-        <a th:href="@{ '/detail' + ${ i.id } }">
+        <a class="card-box" th:href="@{'/detail/' + ${ i.id } }">
             <img src="https://placehold.co/300">
             <div>
                 <h4 th:text="${i.title}">바지</h4>
                 <p th:text="${i.price}">7억</p>
+                <button class="edit-btn" th:data-id="${i.id}">수정하기</button>
             </div>
         </a>
     </div>
+
+    <script>
+        document.querySelectorAll('.edit-btn').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const id = this.getAttribute('data-id');
+                window.location.href = `/edit/${id}`;
+            });
+        });
+    </script>
 </body>
 </html>
