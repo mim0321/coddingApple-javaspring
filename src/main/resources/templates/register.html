@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <!--  static 폴더 안에 있는 파일은 / 사용하여 링크 가능  -->
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+<!-- nav bar html -->
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<!-- DB input form -->
+<form action="/member/join" method="POST">
+    <label for="displayName">이름을 작성하시오</label>
+    <input id="displayName" type="text" name="displayName" placeholder="이름 작성(10자 제한)" maxlength="10">
+    <br>
+    <label for="username">아이디를 작성하시오</label>
+    <input id="username" type="text" name="username" placeholder="아이디 작성(20자 제한)" maxlength="20">
+    <br>
+    <label for="password">암호를 작성하시오</label>
+    <input id="password" type="password" name="password" placeholder="암호 작성(32자 제한)" maxlength="32">
+    <br>
+    <button id="submit" type="submit">가입하기</button>
+</form>
+
+<script>
+    document.querySelector('#submit').addEventListener('click', ()=>{
+        const displayName = document.querySelector('#displayName').value;
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+
+        if ( displayName == '' || username == '' || password == '' ) {
+            alert("빈칸있음. 다 적으셈");
+        } else if ( displayName.length > 10 || username.length > 20 || password.length > 32 ) {
+            alert("글자수를 초과했습니다.");
+        } else {
+            alert("가입이 완료되었습니다.\n홈페이지로 이동합니다.");
+        }
+    });
+</script>
+</body>
+</html>

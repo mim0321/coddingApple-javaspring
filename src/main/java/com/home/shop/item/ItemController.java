@@ -4,6 +4,7 @@ package com.home.shop.item;
 import com.home.shop.ListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -114,6 +115,13 @@ public class ItemController {
         } else {
             return ResponseEntity.status(400).body("400 error");
         }
+    }
+
+    @GetMapping("/test")
+    String test() {
+        var result = new BCryptPasswordEncoder().encode("abc");
+        System.out.println(result);
+        return "redirect:/list";
     }
 
 
