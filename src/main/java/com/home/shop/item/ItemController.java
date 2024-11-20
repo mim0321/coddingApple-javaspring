@@ -4,6 +4,7 @@ package com.home.shop.item;
 import com.home.shop.ListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +23,8 @@ public class ItemController {
 
     @GetMapping("/list")
     String list(Model model) {
-        listService.listDB(model);
-
-        return "list.html";
+            listService.listDB(model);
+            return "list.html";
     }
 
     /**
@@ -35,17 +35,22 @@ public class ItemController {
      */
 
     @GetMapping("/write")
-    String write() {
-        return "write.html";
+    String write(Authentication auth) {
+        if(auth != null && auth.isAuthenticated()){
+            return "write.html";
+        } else {
+            return "redirect:/login";
+        }
     }
 
     // 상품 추가 POST API
     @PostMapping("/add")
     public String addItem(@RequestParam String title,
                           @RequestParam Integer price,
+                          @RequestParam String user,
                           Model model) {
 //        Service로 저장하는거 만듦
-        itemService.saveItem(title, price);
+        itemService.saveItem(title, price, user);
 
         return "redirect:/list";
     }

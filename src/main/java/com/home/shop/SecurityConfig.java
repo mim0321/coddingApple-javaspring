@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -23,6 +23,14 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll()
         );
+
+        http.formLogin((formLogin)
+                -> formLogin.loginPage("/login")
+                .defaultSuccessUrl("/")
+//                .failureUrl("/fail")
+        );
+        http.logout(logout -> logout.logoutUrl("/logout"));
+
         return http.build();
     }
 }

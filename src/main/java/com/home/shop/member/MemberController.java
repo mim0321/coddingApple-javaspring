@@ -1,6 +1,7 @@
 package com.home.shop.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,12 +18,16 @@ public class MemberController {
 
 //    @@@@@@ API @@@@@@
 
-    //    Register API
+    //    Register GET API
     @GetMapping("/member/join")
-    String register() {
+    String register(Authentication auth) {
+        if (auth != null && auth.isAuthenticated()) {
+            return "redirect:/list";
+        }
         return "register.html";
     }
 
+    //    Register POST API
     @PostMapping("/member/join")
     String addMember(@RequestParam String username,
                      @RequestParam String displayName,
@@ -45,6 +50,19 @@ public class MemberController {
             memberRepository.save(member);
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        var result = memberRepository.findByUsername("test");
+        return "login.html";
+    }
+
+    @GetMapping("/my-page")
+    public String myPage(Authentication auth) {
+        CustomUser result = (CustomUser)auth.getPrincipal();
+        System.out.println(result.displayName);
+        return "mypage.html";
     }
 
 }

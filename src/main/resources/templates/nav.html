@@ -11,5 +11,18 @@
     <a href="/list">List |</a>
     <a href="/write">Write |</a>
     <a href="/member/join">Register |</a>
-    <a href="#">Log-in</a>
+    <a href="/login">Log-in</a>
+    <span sec:authorize="isAuthenticated()">
+        <a sec:authentication="principal.username" href="/my-page" style="color: red;"></a>
+    </span>
+    <span sec:authorize="isAnonymous()" style="color: red;">
+        로그인하지않음
+    </span>
+    <span sec:authorize="isAuthenticated()">
+        <button
+                onclick="window.location.href ='/logout'"
+                style="margin-left : 20px; cursor : pointer;">
+            Log Out
+        </button>
+    </span>
 </div>

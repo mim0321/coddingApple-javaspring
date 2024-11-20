@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Write</title>
+    <title>login</title>
     <!--  static 폴더 안에 있는 파일은 / 사용하여 링크 가능  -->
     <link rel="stylesheet" href="/main.css">
 </head>
@@ -13,11 +13,13 @@
 <!-- nav bar html -->
 <div th:replace="~{ nav.html::navbar }"></div>
 
-<!-- DB input form -->
-<form th:action="@{/add}" method="POST">
-    <input type="hidden" name="user" th:value="${#authentication.name}">
-    <input type="text" name="title" placeholder="title">
-    <input type="text" name="price" placeholder="price">
+<div th:if="${param.error}">
+    <h4>아이디나 비번 틀림</h4>
+</div>
+
+<form action="/login" method="POST">
+    <input name="username" placeholder="id">
+    <input name="password" type="password" placeholder="pw">
     <button type="submit">전송</button>
 </form>
 
