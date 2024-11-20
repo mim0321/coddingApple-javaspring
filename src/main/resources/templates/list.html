@@ -26,6 +26,15 @@
     </a>
 </div>
 
+<div class="pages-container">
+    <ul th:each="p : ${pages}">
+        <li>
+            <a class="pages__number" th:href="@{'/list/page/' + ${p}}" th:text="${p}" th:classappend="${p == currentPage} ? 'active'"></a>
+        </li>
+    </ul>
+<!--    <a th:href="@{'/list/page/' + ${  }}"></a>-->
+</div>
+
 <script>
     document.querySelectorAll('.edit-btn').forEach(function(button) {
         button.addEventListener('click', function(e) {

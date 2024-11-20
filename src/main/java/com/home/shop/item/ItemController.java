@@ -3,6 +3,8 @@ package com.home.shop.item;
 
 import com.home.shop.ListService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,8 +28,23 @@ public class ItemController {
 
     @GetMapping("/list")
     String list(Model model) {
-            listService.listDB(model);
-            return "list.html";
+        listService.listDB(model);
+        return "redirect:/list/page/1";
+    }
+
+    //    List API
+    @GetMapping("/list/page/{page}")
+    String getListPage(Model model, @PathVariable Integer page) {
+        Page<Item> result = itemRepository.findPageBy(PageRequest.of(page - 1, 5));
+        model.addAttribute("items", result);
+
+//        totalPages를 List에 담기
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, result.getTotalPages())
+                .boxed()
+                .collect(Collectors.toUnmodifiableList());
+        model.addAttribute("pages", pageNumbers);
+        model.addAttribute("currentPage", page);
+        return "list.html";
     }
 
     /**
@@ -36,7 +56,7 @@ public class ItemController {
 
     @GetMapping("/write")
     String write(Authentication auth) {
-        if(auth != null && auth.isAuthenticated()){
+        if (auth != null && auth.isAuthenticated()) {
             return "write.html";
         } else {
             return "redirect:/login";
