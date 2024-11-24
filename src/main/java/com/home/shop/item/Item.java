@@ -16,6 +16,7 @@ public class Item {
     private String title;
     private Integer price;
     private String user;
+    private String imgURL;
 
     /** [코드 관리 도와주는 문법(java)]
      * 클래스 변수, 함수에 붙이는 modifier

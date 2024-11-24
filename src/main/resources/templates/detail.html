@@ -16,7 +16,13 @@
     <!-- detail html -->
     <div class="detail">
         <h4>상세페이지</h4>
-        <img src="https://placehold.co/300">
+        <!--만약 imgurl이 db에 있다면?-->
+        <div th:if="${ item.imgURL != null }">
+            <img th:src="${ item.imgURL }" width="300px">
+        </div>
+        <div th:if="${ item.imgURL == null }">
+            <img src="https://placehold.co/300" width="300px">
+        </div>
         <h4 th:text="${ item.title }">title</h4>
         <p th:text="${ item.price + ' 원' }">price</p>
     </div>

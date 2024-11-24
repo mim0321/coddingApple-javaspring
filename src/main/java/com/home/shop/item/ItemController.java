@@ -25,6 +25,7 @@ public class ItemController {
     private final ItemRepository itemRepository;
     private final ItemService itemService;
     private final ListService listService;
+    private final S3Service s3Service;
 
     @GetMapping("/list")
     String list(Model model) {
@@ -54,6 +55,7 @@ public class ItemController {
      * 3. 문제 없을 시 DB에 저장하기
      */
 
+//    write GET API
     @GetMapping("/write")
     String write(Authentication auth) {
         if (auth != null && auth.isAuthenticated()) {
@@ -68,11 +70,23 @@ public class ItemController {
     public String addItem(@RequestParam String title,
                           @RequestParam Integer price,
                           @RequestParam String user,
+                          @RequestParam String imgURL,
                           Model model) {
 //        Service로 저장하는거 만듦
-        itemService.saveItem(title, price, user);
+        itemService.saveItem(title, price, user, imgURL);
+        System.out.println(imgURL);
 
         return "redirect:/list";
+    }
+
+
+    //    image post API
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    String getURL(@RequestParam String filename) {
+        var result = s3Service.createPresignedUrl("springS3Test/" + filename);
+
+        return result;
     }
 
     //    상세페이지 GET API
@@ -142,12 +156,6 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/test")
-    String test() {
-        var result = new BCryptPasswordEncoder().encode("abc");
-        System.out.println(result);
-        return "redirect:/list";
-    }
 
 
 }

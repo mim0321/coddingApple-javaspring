@@ -18,8 +18,36 @@
     <input type="hidden" name="user" th:value="${#authentication.name}">
     <input type="text" name="title" placeholder="title">
     <input type="text" name="price" placeholder="price">
-    <button type="submit">전송</button>
+    <input type="file" onchange="getURL(this)">
+    <input type="hidden" name="imgURL" id="fileName">
+    <img src="" width="100px" style="display: block;">
+    <button type="submit" style="margin-top: 2rem;">전송</button>
 </form>
+
+
+
+
+<script>
+    async function getURL(e) {
+        const name = encodeURIComponent(e.files[0].name)
+        let result = await fetch('/presigned-url?filename=' + name)
+        result = await result.text()
+
+        let result2 = await fetch(result, {
+            method : 'PUT',
+            body : e.files[0],
+        })
+
+        document.querySelector('#fileName').value = result2.url.split("?")[0]
+        //console.log(result2)
+        //console.log(result2.url.split("?")[0])
+
+        if (result2.ok){
+            document.querySelector('img').src = result2.url.split("?")[0]
+        }
+    }
+
+</script>
 
 </body>
 </html>
