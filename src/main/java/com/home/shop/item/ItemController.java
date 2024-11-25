@@ -27,7 +27,6 @@ public class ItemController {
     private final ListService listService;
     private final S3Service s3Service;
     private final CommentRepository commentRepository;
-    private final CommentService commentService;
 
     @GetMapping("/list")
     String list(Model model) {
@@ -162,21 +161,6 @@ public class ItemController {
         }
     }
 
-    //    댓글 API
-    @PostMapping("/comment/{parentId}")
-    String postComment(
-                   @RequestParam String username,
-                   @RequestParam String content,
-                   @PathVariable Long parentId
-    ) {
-        System.out.println("username : " + username);
-        System.out.println("content : " + content);
-        System.out.println("parentId : " + parentId);
-
-        commentService.saveComment(username, content, parentId);
-
-        return "redirect:/detail/" + parentId;
-    }
 
 
 }
