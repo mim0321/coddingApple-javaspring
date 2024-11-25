@@ -1,4 +1,10 @@
 /* Normalize S */
+body, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -95,9 +101,78 @@ input {
 .detail {
   text-align : center;
 }
-.detail img{
+
+.detail img {
   max-width : 30%;
   display : block;
   margin : auto;
 }
+
+footer {
+    margin: auto;
+    margin-top: 160px;
+    height: 200px;
+    max-width: 860px;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ddd;
+
+}
 /* detail E */
+
+/* Comment S */
+.container {
+    max-width : 860px;
+    margin: auto;
+    margin-top : 60px;
+}
+
+.comment__title {
+    font-size : 1.2rem;
+    height: 24px;
+    display: block;
+    border-bottom : 1px solid #111;
+}
+
+.comment__user-box {
+    display: flex;
+    border-bottom : 1px solid #111;
+    padding: 16px 0;
+}
+
+.comment__user-box > * {
+    padding : 4px 0px;
+    padding-left : 10px;
+}
+
+.comment__username {
+    width : 10%;
+    min-width : 60px;
+    font-weight: bold;
+}
+
+.comment__content {
+    width: 90%;
+    color: #333;
+}
+
+.comment__input {
+    margin-top: 40px;
+}
+
+.comment__input > textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 120px;
+    resize: none;
+    padding: 16px;
+}
+
+.comment__input > button {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
+/* Comment E */

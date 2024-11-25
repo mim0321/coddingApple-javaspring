@@ -1,19 +1,19 @@
 //아래 클래스를 다른 파일에서도 쓰고싶으면 아래 package에 경로를 입력해줘야함 그래서 써놓는거임
 package com.home.shop.item;
 
-import com.home.shop.ListService;
+import com.home.shop.comment.Comment;
+import com.home.shop.comment.CommentRepository;
+import com.home.shop.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,6 +26,8 @@ public class ItemController {
     private final ItemService itemService;
     private final ListService listService;
     private final S3Service s3Service;
+    private final CommentRepository commentRepository;
+    private final CommentService commentService;
 
     @GetMapping("/list")
     String list(Model model) {
@@ -96,8 +98,12 @@ public class ItemController {
 
         Optional<Item> result = itemRepository.findById(id);
 //        Optional 타입을 사용 할 때에는 findById의 결과가 null이 될 수 있기 때문에 if문을 사용하여 "해당 변수에 뭔가가 들어있으면 result.get()을 실행해줘" 라고 코딩하는 것이 옳다.
+
+        List<Comment> comments = commentRepository.findByParentId(id);
+
         if (result.isPresent()) {
             model.addAttribute("item", result.get());
+            model.addAttribute("comments", comments);
             return "detail.html";
         } else {
             return "redirect:/list";
@@ -156,6 +162,21 @@ public class ItemController {
         }
     }
 
+    //    댓글 API
+    @PostMapping("/comment/{parentId}")
+    String postComment(
+                   @RequestParam String username,
+                   @RequestParam String content,
+                   @PathVariable Long parentId
+    ) {
+        System.out.println("username : " + username);
+        System.out.println("content : " + content);
+        System.out.println("parentId : " + parentId);
+
+        commentService.saveComment(username, content, parentId);
+
+        return "redirect:/detail/" + parentId;
+    }
 
 
 }

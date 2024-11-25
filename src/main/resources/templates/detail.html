@@ -10,22 +10,54 @@
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-    <!-- nav bar html -->
-    <div th:replace="~{ nav.html::navbar }"></div>
+<!-- nav bar html -->
+<div th:replace="~{ nav.html::navbar }"></div>
 
-    <!-- detail html -->
-    <div class="detail">
-        <h4>상세페이지</h4>
-        <!--만약 imgurl이 db에 있다면?-->
-        <div th:if="${ item.imgURL != null }">
-            <img th:src="${ item.imgURL }" width="300px">
-        </div>
-        <div th:if="${ item.imgURL == null }">
-            <img src="https://placehold.co/300" width="300px">
-        </div>
-        <h4 th:text="${ item.title }">title</h4>
-        <p th:text="${ item.price + ' 원' }">price</p>
+<!-- detail html -->
+<div class="detail">
+    <h4>상세페이지</h4>
+    <!--만약 imgurl이 db에 있다면?-->
+    <div th:if="${ item.imgURL != null }">
+        <img th:src="${ item.imgURL }" width="300px">
+    </div>
+    <div th:if="${ item.imgURL == null }">
+        <img src="https://placehold.co/300" width="300px">
+    </div>
+    <h4 th:text="${ item.title }">title</h4>
+    <p th:text="${ item.price + ' 원' }">price</p>
+</div>
+
+<!-- 댓글 작성 Comment tab -->
+<div class="comment-container container">
+    <span class="comment__title">Comment</span>
+    <div class="comment__user-box" th:each="comment : ${comments}">
+        <div class="comment__username" th:text="${ comment.username }"></div>
+        <div class="comment__content" th:text="${ comment.content }"></div>
     </div>
 
+    <form
+            id="content-form"
+            th:action="@{'/comment/' + ${ item.id }}"
+            method="POST" class="comment__input"
+            sec:authorize="isAuthenticated()"
+    >
+        <input type="hidden" name="username" th:value="${#authentication.name}">
+        <textarea id="content-text" type="text" name="content" placeholder="write here!"></textarea>
+        <button type="submit">작성하기</button>
+    </form>
+</div>
+<footer>
+    <span>this is footer</span>
+</footer>
+
+
+<script>
+    document.querySelector('#content-text').addEventListener('keydown', function(e){
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            document.querySelector('#content-form').submit();
+        }
+    });
+</script>
 </body>
 </html>
