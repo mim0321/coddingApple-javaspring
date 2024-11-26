@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>List</title>
+    <title>List-Search</title>
     <!--  static 폴더 안에 있는 파일은 / 사용하여 링크 가능  -->
     <link rel="stylesheet" href="/main.css">
 </head>
@@ -14,11 +14,10 @@
 <div th:replace="~{ nav.html::navbar }"></div>
 
 <form action="/search/page/1" method="GET">
-    <input type="text" name="searchText" style="display: inline;">
+    <input type="text" name="searchText" style="display: inline;" th:value="${ searchText }">
     <button>검색</button>
 </form>
 
-<!-- th:each="작명 : ${변수명}" == 변수명 안에 있는 List자료형을 '작명'에 하나하나 저장해준다. -->
 <div class="card" th:each="i : ${items}">
     <a class="card-box" th:href="@{'/detail/' + ${ i.id } }">
         <div th:if="${ i.imgURL != null || i.imgURL != '' }">
@@ -39,7 +38,7 @@
 <div class="pages-container">
     <ul th:each="p : ${pages}">
         <li>
-            <a class="pages__number" th:href="@{'/list/page/' + ${p}}" th:text="${p}" th:classappend="${p == currentPage} ? 'active'"></a>
+            <a class="pages__number" th:href="@{'/search/page/' + ${p} + @{'?searchText='} + ${searchText}}" th:text="${p}" th:classappend="${p == currentPage} ? 'active'"></a>
         </li>
     </ul>
 </div>

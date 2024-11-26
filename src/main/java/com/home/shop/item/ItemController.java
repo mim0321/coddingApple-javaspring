@@ -161,6 +161,28 @@ public class ItemController {
         }
     }
 
+//    검색 API
+    @GetMapping("/search/page/{page}")
+    String postSearch(@RequestParam String searchText,
+                      @PathVariable Integer page,
+                      Model model) {
 
+        Page<Item> resultPage = itemRepository.fullTextSearch(searchText, PageRequest.of(page - 1, 5));
+
+        List<Item> items = resultPage.getContent();
+        int totalPages = resultPage.getTotalPages();
+
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                .boxed()
+                .collect(Collectors.toUnmodifiableList());
+
+
+        model.addAttribute("items", items);
+        model.addAttribute("pages", pageNumbers);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("searchText", searchText);
+
+        return "search.html";
+    }
 
 }

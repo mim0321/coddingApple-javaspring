@@ -3,6 +3,9 @@ package com.home.shop.item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /** 1.리포지토리(인터페이스) 만들기
  *  - 파일명 관습 : 입출력할 Entity name + Repository >> ItemRepository
@@ -12,5 +15,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Page<Item> findPageBy(Pageable page);
+    List<Item> findAllByTitleContains(String title);
+
+    @Query(value = "select * from item where match(title) against(?1)", nativeQuery = true)
+    Page<Item> fullTextSearch(String text, Pageable pageable);
+
 
 }
