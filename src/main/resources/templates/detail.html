@@ -27,6 +27,13 @@
     <p th:text="${ item.price + ' 원' }">price</p>
 </div>
 
+<div class="order-container container center">
+    <form th:action="@{'/order/' + ${ item.id }}" method="POST">
+        <input type="number" name="count" value="1" style="display: inline-block; width: 28px">
+        <button>주문하기</button>
+    </form>
+</div>
+
 <!-- 댓글 작성 Comment tab -->
 <div class="comment-container container">
     <span class="comment__title">Comment</span>
