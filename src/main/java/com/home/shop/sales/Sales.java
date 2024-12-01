@@ -4,20 +4,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Sales {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String itemName;
-    Integer price;
-    Integer count;
-    Long memberId;
+    private Long itemId;
+    private Integer count;
+    private Long memberId;
     @CreationTimestamp
-    LocalDateTime created;
+    private LocalDateTime created;
 }
