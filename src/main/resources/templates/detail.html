@@ -27,6 +27,13 @@
     <p th:text="${ item.price + ' 원' }">price</p>
 </div>
 
+<div class="order-container container center">
+    <form th:action="@{'/order/' + ${ item.id }}" method="POST">
+        <input class="order__count" type="number" name="count" value="1" min="1" required style="display: inline-block; width: 28px">
+        <button>주문하기</button>
+    </form>
+</div>
+
 <!-- 댓글 작성 Comment tab -->
 <div class="comment-container container">
     <span class="comment__title">Comment</span>
@@ -58,6 +65,12 @@
             document.querySelector('#content-form').submit();
         }
     });
+
+    document.querySelector('.order__count').addEventListener('input', function(){
+        if(this.value < 1) {
+            this.value = 1;
+        }
+    })
 </script>
 </body>
 </html>

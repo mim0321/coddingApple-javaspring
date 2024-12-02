@@ -31,23 +31,14 @@ public class MyUserDetailsService implements UserDetailsService {
         Member user = result.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("일반유저"));
-        var a = new CustomUser(user.getUsername(), user.getPassword(), authorities);
-        a.displayName = user.getDisplayName();
+
+        CustomUser customUser = new CustomUser(user.getId(), user.getUsername(), user.getPassword(), authorities);
+        customUser.displayName = user.getDisplayName();
 
 //        return new User(user.getUsername(), user.getPassword(), authorities);
-        return a;
+        return customUser;
 
     }
 
 }
 
-class CustomUser extends User {
-    public String displayName;
-    public CustomUser(
-            String username,
-            String password,
-            Collection<? extends GrantedAuthority> authorities
-    ) {
-        super(username, password, authorities);
-    }
-}

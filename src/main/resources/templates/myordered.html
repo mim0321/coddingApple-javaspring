@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ordered</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+<!-- nav bar html -->
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<h4>주문내역</h4>
+<p th:text="@{'주문자 이름 : ' + ${sales[0].member.displayName}}">주문자명</p>
+<div class="card" th:each="sale : ${sales}">
+    <div style="border: 1px solid black; box-sizing: border-box; padding: 16px;">
+        <p th:text="@{'상품명 : ' + ${sale.item.title}}">상품명</p>
+        <p th:text="@{'구매갯수 : ' + ${sale.count}}">구매갯수</p>
+        <p th:text="@{'총금액 : ' + ${sale.item.price * sale.count}}">총금액</p>
+        <p th:text="@{'주문시간 : ' + ${sale.created}}">주문시간</p>
+    </div>
+</div>
+
+</body>
+</html>
