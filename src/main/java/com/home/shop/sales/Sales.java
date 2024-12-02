@@ -1,9 +1,8 @@
 package com.home.shop.sales;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.home.shop.item.Item;
+import com.home.shop.member.Member;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,9 +19,15 @@ public class Sales {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long itemId;
     private Integer count;
-    private Long memberId;
     @CreationTimestamp
     private LocalDateTime created;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemId", nullable = false)
+    private Item item;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberId", nullable = false)
+    private Member member;
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class SalesController {
@@ -37,10 +39,10 @@ public class SalesController {
     @GetMapping("/order/myordered")
     String orderpage(@AuthenticationPrincipal CustomUser customUser,
                      Model model){
-//        주문내역 페이지로 이동
 
-        var result = salesRepository.findByMemberId(customUser.getId());
-        System.out.println(result);
+        List<Sales> salesList = salesRepository.findByMemberId(customUser.getId());
+
+        model.addAttribute("sales", salesList);
 
         return "myordered.html";
     }

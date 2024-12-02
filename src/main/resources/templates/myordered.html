@@ -6,32 +6,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ordered</title>
-    <!--  static 폴더 안에 있는 파일은 / 사용하여 링크 가능  -->
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
 <!-- nav bar html -->
 <div th:replace="~{ nav.html::navbar }"></div>
 
-<!-- th:each="작명 : ${변수명}" == 변수명 안에 있는 List자료형을 '작명'에 하나하나 저장해준다. -->
-<div class="card" th:each="i : ${items}">
-    <a class="card-box" th:href="@{'/detail/' + ${ i.id } }">
-        <div th:if="${ i.imgURL != null || i.imgURL != '' }">
-            <img th:src="${ i.imgURL }" width="300px">
-        </div>
-        <div th:if="${ i.imgURL == null || i.imgURL == '' }">
-            <img src="https://placehold.co/300">
-        </div>
-        <div>
-            <h4 th:text="${i.title}">바지</h4>
-            <p th:text="${i.price}">7억</p>
-            <button class="edit-btn" th:data-id="${ i.id }">수정하기</button>
-            <button class="delete-btn" th:data-id="${ i.id }">삭제하기</button>
-        </div>
-    </a>
+<h4>주문내역</h4>
+<p th:text="@{'주문자 이름 : ' + ${sales[0].member.displayName}}">주문자명</p>
+<div class="card" th:each="sale : ${sales}">
+    <div style="border: 1px solid black; box-sizing: border-box; padding: 16px;">
+        <p th:text="@{'상품명 : ' + ${sale.item.title}}">상품명</p>
+        <p th:text="@{'구매갯수 : ' + ${sale.count}}">구매갯수</p>
+        <p th:text="@{'총금액 : ' + ${sale.item.price * sale.count}}">총금액</p>
+        <p th:text="@{'주문시간 : ' + ${sale.created}}">주문시간</p>
+    </div>
 </div>
 
-<script>
-</script>
 </body>
 </html>
