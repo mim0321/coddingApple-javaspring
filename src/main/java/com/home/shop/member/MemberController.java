@@ -1,5 +1,6 @@
 package com.home.shop.member;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,8 @@ public class MemberController {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 //    @@@@@@ API @@@@@@

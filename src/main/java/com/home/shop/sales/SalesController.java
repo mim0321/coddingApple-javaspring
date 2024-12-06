@@ -1,5 +1,6 @@
 package com.home.shop.sales;
 
+import com.home.shop.item.Item;
 import com.home.shop.member.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,4 +47,5 @@ public class SalesController {
 
         return "myordered.html";
     }
+
 }
